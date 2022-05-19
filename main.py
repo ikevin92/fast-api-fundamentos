@@ -81,11 +81,12 @@ def show_person(
 # Validaciones: Path Parameters
 @app.get("/person/detail/{person_id}")
 def show_person(
-    person_id: int = Path(...,
-                          gt=0,
-                          title="Person Id",
-                          description="This is the person id. It's a number and required"
-                          )
+    person_id: int = Path(
+        ...,
+        gt=0,
+        title="Person Id",
+        description="This is the person id. It's a number and required"
+    )
 ):
     return {person_id: "It exist!"}
 
