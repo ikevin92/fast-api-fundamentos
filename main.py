@@ -13,6 +13,7 @@ app = FastAPI()
 
 class HairColor(Enum):
     white = "white"
+    black = "black"
     browm = "browm"
     yelow = "yelow"
     blonde = "blonde"
@@ -24,27 +25,53 @@ class Location(BaseModel):
     state: str
     country: str
 
+    class Config:
+        schema_extra = {
+            "example": {
+                "city": "San Francisco",
+                "state": "California",
+                "country": "USA"
+            }
+        }
+
 
 class Person(BaseModel):
     first_name: str = Field(
         ...,
         min_length=1,
         max_length=50,
-        title="First Name"
+        title="First Name",
+        example="John",
     )
     last_name: str = Field(
         ...,
         min_length=1,
         max_length=50,
-        title="Last Name"
+        title="Last Name",
+        example="Connor"
     )
     age: int = Field(
         ...,
         gt=0,
-        le=115
+        le=115,
+        example=29
     )
-    hair_color: Optional[HairColor] = Field(default=None)
-    is_married: Optional[bool] = Field(default=None)
+    hair_color: Optional[HairColor] = Field(
+        default=None,
+        example=HairColor.blonde
+    )
+    is_married: Optional[bool] = Field(default=None, example=False)
+
+    # class Config:
+    #     schema_extra = {
+    #         "example": {
+    #             "first_name": "Kevin",
+    #             "last_name": "Echeverri",
+    #             "age": 29,
+    #             "hair_color": "black",
+    #             "is_married": False,
+    #         }
+    #     }
 
 
 @app.get("/")
@@ -110,3 +137,5 @@ def update_person(
     results = person.dict()
     results.update(location.dict())
     return results
+
+# https://pydantic-docs.helpmanual.io/usage/types/#pydantic-types
