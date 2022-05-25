@@ -61,6 +61,7 @@ class Person(BaseModel):
         example=HairColor.blonde
     )
     is_married: Optional[bool] = Field(default=None, example=False)
+    password: str = Field(..., min_length=8)
 
     # class Config:
     #     schema_extra = {
